@@ -1,0 +1,36 @@
+{
+  "metrics": {
+    "users": {
+      "total": 1234,
+      "change": 12
+    },
+    "revenue": {
+      "total": 45678,
+      "change": 8
+    },
+    "projects": {
+      "total": 23,
+      "change": 5
+    }
+  },
+  "recentActivity": [
+    {
+      "id": 1,
+      "user": "John Doe",
+      "action": "completed project setup",
+      "time": "2 hours ago"
+    },
+    {
+      "id": 2,
+      "user": "Jane Smith",
+      "action": "updated user settings",
+      "time": "3 hours ago"
+    },
+    {
+      "id": 3,
+      "user": "Bob Johnson",
+      "action": "created new report",
+      "time": "4 hours ago"
+    }
+  ]
+}
