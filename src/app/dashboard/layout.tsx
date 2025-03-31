@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Suspense } from "react";
 
 function Sidebar() {
   const pathname = usePathname();
@@ -48,9 +47,7 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
-      <main className="flex-1 p-8">
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-      </main>
+      <main className="flex-1 p-8">{children}</main>
     </div>
   );
 }

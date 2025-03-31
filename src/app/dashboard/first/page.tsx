@@ -19,7 +19,7 @@ async function waitFor(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export default async function FirstPage() {
+export default async function FirstPageContent() {
   await waitFor(4000);
 
   const data: DashboardData = JSON.parse(
