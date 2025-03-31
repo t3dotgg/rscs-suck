@@ -1,8 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
 
-export const dynamic = "force-dynamic";
-
 interface DashboardData {
   metrics: {
     users: { total: number; change: number };
@@ -22,7 +20,7 @@ async function waitFor(ms: number) {
 }
 
 export default async function FirstPage() {
-  await waitFor(400);
+  await waitFor(4000);
 
   const data: DashboardData = JSON.parse(
     await fs.readFile(
