@@ -1,4 +1,34 @@
-export default function FirstPage() {
+import fs from "fs/promises";
+import path from "path";
+
+interface DashboardData {
+  metrics: {
+    users: { total: number; change: number };
+    revenue: { total: number; change: number };
+    projects: { total: number; change: number };
+  };
+  recentActivity: Array<{
+    id: number;
+    user: string;
+    action: string;
+    time: string;
+  }>;
+}
+
+async function waitFor(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export default async function FirstPageContent() {
+  await waitFor(4000);
+
+  const data: DashboardData = JSON.parse(
+    await fs.readFile(
+      path.join(process.cwd(), "data", "first-data.json"),
+      "utf-8"
+    )
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -11,33 +41,50 @@ export default function FirstPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Total Users</h3>
-          <p className="text-3xl font-bold text-blue-600">1,234</p>
-          <p className="text-sm text-gray-500 mt-2">+12% from last month</p>
+          <p className="text-3xl font-bold text-blue-600">
+            {data.metrics.users.total.toLocaleString()}
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            {data.metrics.users.change > 0 ? "+" : ""}
+            {data.metrics.users.change}% from last month
+          </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Revenue</h3>
-          <p className="text-3xl font-bold text-green-600">$45,678</p>
-          <p className="text-sm text-gray-500 mt-2">+8% from last month</p>
+          <p className="text-3xl font-bold text-green-600">
+            ${data.metrics.revenue.total.toLocaleString()}
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            {data.metrics.revenue.change > 0 ? "+" : ""}
+            {data.metrics.revenue.change}% from last month
+          </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Active Projects</h3>
-          <p className="text-3xl font-bold text-purple-600">23</p>
-          <p className="text-sm text-gray-500 mt-2">+5% from last month</p>
+          <p className="text-3xl font-bold text-purple-600">
+            {data.metrics.projects.total.toLocaleString()}
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            {data.metrics.projects.change > 0 ? "+" : ""}
+            {data.metrics.projects.change}% from last month
+          </p>
         </div>
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
         <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
+          {data.recentActivity.map((activity) => (
             <div
-              key={i}
+              key={activity.id}
               className="flex items-center space-x-4 p-4 bg-gray-50 rounded-md"
             >
               <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
               <div>
-                <p className="font-medium">User {i} completed action</p>
-                <p className="text-sm text-gray-500">2 hours ago</p>
+                <p className="font-medium">
+                  {activity.user} {activity.action}
+                </p>
+                <p className="text-sm text-gray-500">{activity.time}</p>
               </div>
             </div>
           ))}
